@@ -27,7 +27,7 @@ typedef struct image_struct
 
 int main(int argc, const char *argv[])
 {
-    if(!argc > 2)
+    if(argc < 2)
     {
         printf("Write input file\n");
         return -1;
@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
     int bitcount = *(int*) (info + 28);
     int size = (width * 3) * height;
 
-    printf("Basic image data: %dx%d resolution @ %d bitcount (%d per pixel) - %d size\n", width, height, bitcount, bitcount / 3, size);
+    printf("Basic image data of '%s': %dx%d resolution @ %d bitcount (%d per pixel) - %d size\n", argv[1], width, height, bitcount, bitcount / 3, size);
 
     unsigned char* data = (unsigned char*) malloc(size);
 
@@ -86,16 +86,32 @@ int main(int argc, const char *argv[])
         }
     }
 
+    /*
     for (int i = 0; i < (img->width * img->height); i++)
     {
         rgb pixel = img->pixels[i];
         printf("rgb(%d, %d, %d)\n", pixel.r, pixel.g, pixel.b);
     }
+    */
     
 
-    //FILE* result = fopen("result_rgb.bin", "wb");
+    FILE* result = fopen("result_rgb.bin", "wb");
+
+
+    fwrite(&img->width, sizeof(unsigned int), 1, result);
+    fwrite(&img->height, sizeof(unsigned int), 1, result);
+
+
+    unsigned int pixels_len = size * sizeof(rgb);
+    fwrite(&pixels_len, sizeof(unsigned int), 1, result);
+
+
+    fwrite(img->pixels, pixels_len, 1, result);
 
     
+    fclose(result);
+
+    fclose(input_image);
 
     return 0;
 }
