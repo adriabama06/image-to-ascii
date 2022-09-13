@@ -43,7 +43,7 @@ Ok my first time to know was hard and wtf, the images not go like:
 ############
 ```
 
-NO in bmp files to read is like:
+NO, in bmp files to read is like:
 ```
 ############
 #          #
