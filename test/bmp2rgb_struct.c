@@ -102,7 +102,7 @@ int main(int argc, const char *argv[])
     fwrite(&img->height, sizeof(unsigned int), 1, result);
 
 
-    unsigned int pixels_len = size * sizeof(rgb);
+    unsigned int pixels_len = (img->width * img->height) * sizeof(rgb);
     fwrite(&pixels_len, sizeof(unsigned int), 1, result);
 
 
