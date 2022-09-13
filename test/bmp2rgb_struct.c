@@ -42,7 +42,7 @@ int main(int argc, const char *argv[])
     int width = *(int*) (info + 18);
     int height = *(int*) (info + 22);
     int bitcount = *(int*) (info + 28);
-    int size = (width * 3) * height;
+    int size = (width * height) * 3;
 
     printf("Basic image data of '%s': %dx%d resolution @ %d bitcount (%d per pixel) - %d size\n", argv[1], width, height, bitcount, bitcount / 3, size);
 
