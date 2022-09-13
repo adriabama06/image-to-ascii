@@ -36,7 +36,7 @@ void printColor(unsigned char* data, int pos, int color_order)
 
 int main(int argc, const char *argv[])
 {
-    if(argc <= 1)
+    if(argc < 2)
     {
         printf("Write input file\n");
         return -1;
@@ -56,25 +56,25 @@ int main(int argc, const char *argv[])
         }
     }
 
-    FILE* file = fopen(argv[1], "rb");
+    FILE* file = fopen(argv[1], "rb"); // open files in readbyte
 
     char info[54] = { 0 }; // char is 8 bit int in C
 
     fread(info, 1, 54, file); // where is 1 i can write sizeof(char) because equals to 1 or sizeof(info[0]) is the same as sizeof(char)
 
-    int width = *(int*) (info + 18);
+    int width = *(int*) (info + 18); // some thing like info[18] but when the number is long (not long C type XD) does not read good the value, but doing *(int*) this idk work ok
     int height = *(int*) (info + 22);
     int bitcount = *(int*) (info + 28);
-    int size = (width * 3) * height;
+    int size = (width * 3) * height; // get size + 3 color channel (rgb) for memory allocation
 
-    unsigned char* data = (unsigned char*) malloc(size);
+    unsigned char* data = (unsigned char*) malloc(size); // reseve memory for read the image
 
     fread(data, 1, size, file);
 
     for(int row = height - 1; row >= 0; row--) // the rows is reverse or something ¿? mind break
     {
         printf("Start Row :\n");
-        for(int col = 0; col < width; col++)
+        for(int col = 0; col < width; col++) // hey but the colums are ok XD?
         {
             int pos = ((row * width) + col) * 3;
             printColor(data, pos, input_color_order);
