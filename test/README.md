@@ -1,4 +1,10 @@
-any image has this structure:
+for know how i do the conversion from .bmp to my struct see:
+<br>
+[Windows bitmap (Wikipedia) \[ESP\]](https://es.wikipedia.org/wiki/Windows_bitmap)
+<br>
+[BMP file format (Wikipedia) \[ENG\]](https://en.wikipedia.org/wiki/BMP_file_format)
+
+any image has this structure (the .bmp has other):
 ```c
 typedef struct rgb_struct
 {
