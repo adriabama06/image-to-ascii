@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(image-to-image-of-characters VERSION 0.1.0)
 
-add_executable(image-to-image-of-characters src/main.c src/bmp2rgb.c)
+file(GLOB code_src
+    "src/*.c"
+)
+
+add_executable(image-to-image-of-characters ${code_src})
 
 target_include_directories(image-to-image-of-characters PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
