@@ -44,6 +44,12 @@ int main(int argc, const char *argv[])
     int bitcount = *(int*) (info + 28);
     int size = (width * height) * 3;
 
+    if(bitcount != 24)
+    {
+        printf("Only 24 bitcount / 8 bit suported, please use bgr24");
+        return 1;
+    }
+
     printf("Basic image data of '%s': %dx%d resolution @ %d bitcount (%d per pixel) - %d size\n", argv[1], width, height, bitcount, bitcount / 3, size);
 
     unsigned char* data = (unsigned char*) malloc(size);
