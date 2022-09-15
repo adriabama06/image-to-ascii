@@ -17,7 +17,7 @@ try {
 } catch {}
 
 process.stdout.write(
-    execSync(`cd "${path.join(__dirname, "build")}" && cmake ${hasGcc ? '-G "MinGW Makefiles" ' : ''}.. && cmake --build . -j ${os.cpus().length}`)
+    execSync(`cd "${path.join(__dirname, "build")}" && cmake ${hasGcc && process.platform == 'win32' ? '-G "MinGW Makefiles" ' : ''}.. && cmake --build . -j ${os.cpus().length}`)
 );
 
 var resultName = "image-to-image-of-characters";
