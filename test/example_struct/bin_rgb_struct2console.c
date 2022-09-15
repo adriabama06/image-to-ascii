@@ -35,8 +35,8 @@ int main(int argc, const char *argv[])
     fread(&img->height, sizeof(unsigned int), 1, file_to_read);
 
 
-    unsigned int pixels_len;
-    fread(&pixels_len, sizeof(unsigned int), 1, file_to_read);
+    unsigned long pixels_len;
+    fread(&pixels_len, sizeof(unsigned long), 1, file_to_read);
 
 
     img->pixels = (rgb*) malloc(pixels_len); 
