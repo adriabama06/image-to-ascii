@@ -1,6 +1,6 @@
 #include "include/bmp.h"
 
-#include "include/image_struct.h"
+#include "include/image.h"
 
 #include <stdio.h>
 
@@ -12,7 +12,7 @@ int main(int argc, const char *argv[])
         return -1;
     }
 
-    image* img = bmp_read(argv[1]);
+    image* img = get_image(argv[1]);
 
     unsigned int size = img->width * img->height;
 

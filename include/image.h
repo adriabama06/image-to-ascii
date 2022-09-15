@@ -1,5 +1,7 @@
 #pragma once
 
+#include "include/bmp.h"
+
 // if you dont like #pragma once other method is using #ifndef and #define, but #pragma is ok
 
 // #ifndef _IMAGE_STRUCT_H_
@@ -19,5 +21,9 @@ typedef struct image_struct
     unsigned int height;
     rgb* pixels;
 } image;
+
+image* bmp_data2image(bmp_data*);
+
+image* get_image(const char*);
 
 // #endif
