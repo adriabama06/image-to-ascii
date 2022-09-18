@@ -75,7 +75,7 @@ int main(int argc, const char *argv[])
     {
         width_count++;
 
-        if(width_count <= header.width)
+        if(width_count <= header.width) // this is like the first loop
         {
             unsigned int b = pixel_data[i++];
             unsigned int g = pixel_data[i++];
@@ -96,7 +96,7 @@ int main(int argc, const char *argv[])
                 fwrite("#", sizeof(char), 1, result);
             }
         }
-        else
+        else // this else is like when the second for end do this:
         {
             fwrite("\n", sizeof(char), 1, result);
             i += padding; // cause after we do i++ how is defined in the for loop at 3rd argument
