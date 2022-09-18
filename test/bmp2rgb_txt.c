@@ -75,7 +75,7 @@ int main(int argc, const char *argv[])
     {
         width_count++;
 
-        if(width_count <= header.width) // this is like the first loop
+        if(width_count <= header.width) // this is like the second loop in the first loop
         {
             unsigned int b = pixel_data[i++];
             unsigned int g = pixel_data[i++];
