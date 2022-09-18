@@ -3,86 +3,85 @@ this write file: rgb.bin (realy the extension is what you like, dosen't matter)
 and after use test_rgb_bin2txt.c for load and do the last conversion
 */
 
-typedef struct rgb_struct
-{
-    unsigned int r;
-    unsigned int g;
-    unsigned int b;
-} rgb;
-
-
-typedef struct image_struct
-{
-    unsigned int width;
-    unsigned int height;
-    rgb* pixels;
-} image;
-
-
+// http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm
+// for know the bmp header
 
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct BMP_HEADER_STRUCT {
+    unsigned long filesize;
+    unsigned long reserved;
+    unsigned long dataoffset;
 
+    unsigned long size;
+    unsigned long width;
+    unsigned long height;
+    unsigned short planes;
+    unsigned short bits_per_pixel;
+    unsigned long compression;
+    unsigned long imagesize;
+    unsigned long y_pixels_per_m;
+    unsigned long x_pixels_per_m;
+    unsigned long colors_used;
+    unsigned long important_colors;
+
+    unsigned char signature[2];
+} BMP_HEADER;
 
 int main(int argc, const char *argv[])
 {
-    if(argc < 2)
+    FILE* input_image = fopen("image_files\\renai_circulation_random_res.bmp", "rb");
+
+    if(input_image == NULL)
     {
-        printf("Write input file\n");
-        return -1;
+        printf("Error opening file\n");
+        return 2;
     }
 
-    FILE* input_image = fopen(argv[1], "rb");
+    // sizeof(BMP_HEADER); -> 56 <- only for know why i don't use sizeof for load header in fread
 
-    char info[54] = { 0 }; // char is 8 bit int in C
+    BMP_HEADER header;
+    
+    fseek(input_image, 2, SEEK_SET);
 
-    fread(info, 1, 54, input_image); // where is 1 i can write sizeof(char) because equals to 1 or sizeof(info[0]) is the same as sizeof(char)
+    fread(&header, 1, 52, input_image);
 
-    int width = *(int*) (info + 18);
-    int height = *(int*) (info + 22);
-    int bitcount = *(int*) (info + 28);
-    int size = (width * height) * 3;
+    fseek(input_image, 0, SEEK_SET);
 
-    if(bitcount != 24)
+    fread(&header.signature, 1, 2, input_image);
+
+    fseek(input_image, header.dataoffset, SEEK_SET);
+
+    if(header.bits_per_pixel != 24)
     {
-        printf("Only 24 bitcount / 8 bit suported, please use bgr24");
+        printf("Only 24 bitcount / 8 bit suported, please use bgr24\n");
         return 1;
     }
 
-    printf("Basic image data of '%s': %dx%d resolution @ %d bitcount (%d per pixel) - %d size\n", argv[1], width, height, bitcount, bitcount / 3, size);
+    unsigned char* pixel_data = (unsigned char*) malloc(header.imagesize);
 
-    unsigned char* data = (unsigned char*) malloc(size);
+    fread(pixel_data, 1, header.imagesize, input_image);
 
-    fread(data, 1, size, input_image);
+    fclose(input_image);
 
     FILE* result = fopen("output.txt", "w");
 
-    for(int row = height - 1; row >= 0; row--) // the rows is reverse or something ¿? mind break
+    unsigned long padding = header.width - ((header.width / 4) * 4);
+
+    unsigned long width_count = 0;
+
+    for (unsigned long i = 0; i < header.imagesize;)
     {
-        // reverse chunk colum
-        for(int col = 0; col < width; col++)
+        width_count++;
+
+        if(width_count <= header.width)
         {
-            long pos = ((row * width) + col) * 3;
-            
-            /*
-            bmp work with BGR in this case only i know the order to do BGR 2 RGB, easy:
-            
-            B G R
-            0 1 2
-            ----- <- conversion
-            R G B
-            2 1 0
-
-            but in this case cause is struct i can put how i like and read easy
-            */
-
-            unsigned int b = data[pos];
-            unsigned int g = data[pos + 1];
-            unsigned int r = data[pos + 2];
+            unsigned int b = pixel_data[i++];
+            unsigned int g = pixel_data[i++];
+            unsigned int r = pixel_data[i++];
 
             unsigned int avg = (r + g + b) / 3;
-
 
             if(avg < 85)
             {
@@ -97,12 +96,16 @@ int main(int argc, const char *argv[])
                 fwrite("#", sizeof(char), 1, result);
             }
         }
-        fwrite("\n", sizeof(char), 1, result);
+        else
+        {
+            fwrite("\n", sizeof(char), 1, result);
+            i += padding; // cause after we do i++ how is defined in the for loop at 3rd argument
+            width_count = 0;
+        }
     }
+    
 
     fclose(result);
-
-    fclose(input_image);
 
     return 0;
 }
