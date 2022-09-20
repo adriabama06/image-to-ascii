@@ -8,26 +8,42 @@ and after use test_rgb_bin2txt.c for load and do the last conversion
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <memory.h>
 
 typedef struct BMP_HEADER_STRUCT {
-    unsigned long filesize;
-    unsigned long reserved;
-    unsigned long dataoffset;
+    uint32_t filesize;
+    uint32_t reserved;
+    uint32_t dataoffset;
 
-    unsigned long size;
-    unsigned long width;
-    unsigned long height;
-    unsigned short planes;
-    unsigned short bits_per_pixel;
-    unsigned long compression;
-    unsigned long imagesize;
-    unsigned long y_pixels_per_m;
-    unsigned long x_pixels_per_m;
-    unsigned long colors_used;
-    unsigned long important_colors;
+    uint32_t size;
+    uint32_t width;
+    uint32_t height;
+    uint16_t planes;
+    uint16_t bits_per_pixel;
+    uint32_t compression;
+    uint32_t imagesize;
+    uint32_t y_pixels_per_m;
+    uint32_t x_pixels_per_m;
+    uint32_t colors_used;
+    uint32_t important_colors;
 
-    unsigned char signature[2];
+    uint8_t signature[2];
 } BMP_HEADER;
+
+typedef struct rgb_struct
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} rgb;
+
+
+typedef struct image_struct
+{
+    BMP_HEADER header;
+    rgb* pixels;
+} image;
 
 int main(int argc, const char *argv[])
 {
@@ -59,30 +75,57 @@ int main(int argc, const char *argv[])
         return 1;
     }
 
-    unsigned char* pixel_data = (unsigned char*) malloc(header.imagesize);
+    uint8_t* raw_pixel_data = (uint8_t*) malloc(header.imagesize);
 
-    fread(pixel_data, 1, header.imagesize, input_image);
+    fread(raw_pixel_data, 1, header.imagesize, input_image);
 
     fclose(input_image);
 
-    FILE* result = fopen("output.txt", "w");
+    image* img = (image*) malloc(sizeof(image));
 
-    unsigned long padding = header.width - ((header.width / 4) * 4);
+    img->header = header;
 
-    unsigned long width_count = 0;
+    img->pixels = (rgb*) malloc((header.width * header.height) * sizeof(rgb));
 
-    for (unsigned long i = 0; i < header.imagesize;)
+    uint32_t padding = header.width - ((header.width / 4) * 4);
+
+    uint32_t width_count = 0;
+
+    uint32_t normal_count = 0;
+
+    for (uint32_t i = 0; i < header.imagesize;)
     {
         width_count++;
 
         if(width_count <= header.width) // this is like the second loop in the first loop
         {
-            unsigned int b = pixel_data[i++];
-            unsigned int g = pixel_data[i++];
-            unsigned int r = pixel_data[i++];
+            rgb pixel;
 
-            unsigned int avg = (r + g + b) / 3;
+            pixel.b = raw_pixel_data[i++];
+            pixel.g = raw_pixel_data[i++];
+            pixel.r = raw_pixel_data[i++];
 
+            img->pixels[normal_count++] = pixel;
+        }
+        else
+        {
+            i += padding;
+            width_count = 0;
+        }
+    }
+
+    FILE* result = fopen("output.txt", "w");
+
+    for(int32_t row = header.height - 1; row >= 0; row--)
+    {
+        for(uint32_t col = 0; col < header.width; col++)
+        {
+            uint32_t pos = (row * header.width) + col;
+
+            rgb pixel = img->pixels[pos];
+
+            uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
+            
             if(avg < 85)
             {
                 fwrite(" ", sizeof(char), 1, result);
@@ -96,14 +139,8 @@ int main(int argc, const char *argv[])
                 fwrite("#", sizeof(char), 1, result);
             }
         }
-        else // this else is like when the second for end do this:
-        {
-            fwrite("\n", sizeof(char), 1, result);
-            i += padding; // cause after we do i++ how is defined in the for loop at 3rd argument
-            width_count = 0;
-        }
+        fwrite("\n", sizeof(char), 1, result);
     }
-    
 
     fclose(result);
 

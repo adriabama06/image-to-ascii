@@ -83,12 +83,12 @@ int main(int argc, const char *argv[])
             but in this case cause is struct i can put how i like and read easy
             */
 
-           rgb pixel;
-           pixel.b = data[pos];
-           pixel.g = data[pos + 1];
-           pixel.r = data[pos + 2];
+            rgb pixel;
+            pixel.b = data[pos];
+            pixel.g = data[pos + 1];
+            pixel.r = data[pos + 2];
 
-           img->pixels[normal_count++] = pixel;
+            img->pixels[normal_count++] = pixel;
         }
     }
 

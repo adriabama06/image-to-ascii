@@ -166,7 +166,6 @@ int main(int argc, const char *argv[])
 
     /*for(int row = Height - 1; row >= 0; row--) // the rows is reverse or something ¿? mind break
     {
-        // reverse chunk colum
         for(int col = 0; col < Width+padding; col++)
         {
             if(col > Width)
