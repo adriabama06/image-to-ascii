@@ -1,56 +1,132 @@
 #include "include/image.h"
 
+#include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-image* bmp_data2image(bmp_data* bmp)
+
+IMAGE* bmp_data_to_image(BMP_DATA* bmp_data)
 {
-    image* img = (image*) malloc(sizeof(image));
+    IMAGE* img = (IMAGE*) malloc(sizeof(IMAGE));
 
-    img->width = bmp->width;
-    img->height = bmp->height;
+    img->header = bmp_data->header;
 
-    img->pixels = (rgb*) malloc((img->width * img->height) * sizeof(rgb));
+    img->pixels = (RGB*) malloc((img->header.width * img->header.height) * sizeof(RGB));
 
-    int normal_count = 0;
-    for(int row = img->height - 1; row >= 0; row--) // the rows is reverse or something ¿? mind break
+    uint32_t padding = img->header.width - ((img->header.width / 4) * 4);
+
+    uint32_t width_count = 0;
+
+    uint32_t normal_count = 0;
+
+    for (uint32_t i = 0; i < img->header.imagesize;)
     {
-        for(int col = 0; col < img->width; col++)
+        width_count++;
+
+        if(width_count <= img->header.width) // this is like the second loop in the first loop
         {
-            int pos = ((row * img->width) + col) * 3;
-            
-            /*
-            bmp work with BGR, i know the order to do BGR 2 RGB, easy:
-            
-            B G R
-            0 1 2
-            ----- <- conversion
-            R G B
-            2 1 0
+            RGB pixel;
 
-            but in this case cause is struct i can put how i like and read easy
-            */
+            pixel.b = bmp_data->data[i++];
+            pixel.g = bmp_data->data[i++];
+            pixel.r = bmp_data->data[i++];
 
-           rgb pixel;
-           pixel.b = bmp->data[pos];
-           pixel.g = bmp->data[pos + 1];
-           pixel.r = bmp->data[pos + 2];
-
-           img->pixels[normal_count++] = pixel;
-
-           // can i do normal_count and after do normal_count += 1, how you like, but how is now is ok
+            img->pixels[normal_count++] = pixel;
+        }
+        else
+        {
+            i += padding;
+            width_count = 0;
         }
     }
 
     return img;
 }
 
-image* get_image(const char* file)
+IMAGE* image_invert(IMAGE* img)
 {
-    bmp_data* bmp_d = bmp_read(file);
+    IMAGE* new_img = (IMAGE*) malloc(sizeof(IMAGE));
 
-    image* img = bmp_data2image(bmp_d);
+    new_img->header = img->header;
+    
+    new_img->pixels = (RGB*) malloc((img->header.width * img->header.height) * sizeof(RGB));
 
-    free(bmp_d);
 
-    return img;
+
+    uint32_t normal_count = 0;
+
+    for(int32_t row = img->header.height - 1; row >= 0; row--)
+    {
+        for(uint32_t col = 0; col < img->header.width; col++)
+        {
+            uint32_t pos = (row * img->header.width) + col;
+
+            RGB pixel = img->pixels[pos];
+            
+            new_img->pixels[normal_count++] = pixel;
+        }
+    }
+
+    return new_img;
+}
+
+void image_to_char_file(IMAGE* img, const char* output)
+{
+    FILE* result = fopen(output, "w");
+
+    char* img_char = image_to_char(img);
+
+    for (long i = 0; img_char[i] != '\0'; i++)
+    {
+        fwrite(&img_char[i], sizeof(char), 1, result);
+    }
+    
+    fclose(result);
+
+    return;
+}
+
+char* image_to_char(IMAGE* img)
+{
+    uint32_t size = img->header.width * img->header.height;
+
+    char* result = (char*) malloc(size + img->header.height);
+
+    uint32_t width_count = 0;
+
+    uint32_t result_count = 0;
+
+    for (uint32_t i = 0; i <= img->header.width * img->header.height; result_count++)
+    {
+        width_count++;
+        
+        if(width_count <= img->header.width)
+        {
+            RGB pixel = img->pixels[i++];
+
+            uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
+
+            if(avg < 85)
+            {
+                result[result_count] = ' ';
+            } 
+            else if(avg > 85 && avg < 170)
+            {
+                result[result_count] = '/';
+            }
+            else
+            {
+                result[result_count] = '#';
+            }
+        }
+        else
+        {
+            result[result_count] = '\n';
+            width_count = 0;
+        }
+    }
+
+    result[size + img->header.height - 1] = '\0';
+
+    return result;
 }

@@ -4,39 +4,39 @@
 #include <stdlib.h>
 #include <string.h>
 
-bmp_data* bmp_read(const char* file)
+BMP_DATA* bmp_read_data(const char* file)
 {
     FILE* input_image = fopen(file, "rb");
 
-    char info[54] = { 0 };
-
-    fread(info, 1, 54, input_image);
-
-    int width = *(int*) (info + 18);
-    int height = *(int*) (info + 22);
-    int bitcount = *(int*) (info + 28);
-    int size = (width * height) * 3;
-
-    if(bitcount != 24)
+    if(input_image == NULL)
     {
-        perror("Error: color depth can only be 24 (8bit per color)");
+        printf("Error opening file\n");
         return NULL;
     }
 
-    bmp_data* bd = (bmp_data*) malloc(sizeof(bmp_data));
+    BMP_DATA* bmp_data = (BMP_DATA*) malloc(sizeof(BMP_DATA));
 
-    bd->width = width;
-    bd->height = height;
-    bd->bitcount = bitcount;
-    bd->size = size;
+    fseek(input_image, 2, SEEK_SET);
 
-    bd->data = (unsigned char*) malloc(size);
+    fread(&bmp_data->header, 1, 52, input_image);
 
-    fread(bd->data, 1, size, input_image);
+    fseek(input_image, 0, SEEK_SET);
 
-    fclose(input_image); // bye i don't need you
+    fread(&bmp_data->header.signature, 1, 2, input_image);
 
-    //free(data); // clear memory, data is not necessary because is now in img as rgb pixel
+    fseek(input_image, bmp_data->header.dataoffset, SEEK_SET);
 
-    return bd;
+    if(bmp_data->header.bits_per_pixel != 24)
+    {
+        printf("Only 24 bitcount / 8 bit suported, please use bgr24\n");
+        return NULL;
+    }
+
+    bmp_data->data = (uint8_t*) malloc(bmp_data->header.imagesize);
+
+    fread(bmp_data->data, 1, bmp_data->header.imagesize, input_image);
+
+    fclose(input_image);
+
+    return bmp_data;
 }

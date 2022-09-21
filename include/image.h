@@ -1,29 +1,32 @@
 #pragma once
 
-#include "include/bmp.h"
-
 // if you dont like #pragma once other method is using #ifndef and #define, but #pragma is ok
+
+#include "include/bmp.h"
 
 // #ifndef _IMAGE_STRUCT_H_
 // #define _IMAGE_STRUCT_H_
 
-typedef struct rgb_struct
+typedef struct RGB_STRUCT
 {
-    unsigned int r;
-    unsigned int g;
-    unsigned int b;
-} rgb;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} RGB;
 
 
-typedef struct image_struct
+typedef struct IMAGE_STRUCT
 {
-    unsigned int width;
-    unsigned int height;
-    rgb* pixels;
-} image;
+    BMP_HEADER header;
+    RGB* pixels;
+} IMAGE;
 
-image* bmp_data2image(bmp_data*);
+IMAGE* bmp_data_to_image(BMP_DATA*);
 
-image* get_image(const char*);
+IMAGE* image_invert(IMAGE*);
+
+void image_to_char_file(IMAGE*, const char*);
+
+char* image_to_char(IMAGE*);
 
 // #endif

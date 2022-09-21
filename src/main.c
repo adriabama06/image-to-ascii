@@ -12,17 +12,15 @@ int main(int argc, const char *argv[])
         return -1;
     }
 
-    image* img = get_image(argv[1]);
+    BMP_DATA* bmp_data = bmp_read_data(argv[1]);
 
-    unsigned int size = img->width * img->height;
+    IMAGE* raw_img = bmp_data_to_image(bmp_data);
 
-    for (unsigned int i = 0; i < size; i++)
-    {
-        rgb pixel = img->pixels[i];
-        printf("rgb(%d, %d, %d)\n", pixel.r, pixel.g, pixel.b);
-    }
+    IMAGE* img = image_invert(raw_img);
 
-    printf("Basic image data of '%s': %dx%d resolution - %d size\n", argv[1], img->width, img->height, (img->width * 3) * img->height);
+    image_to_char_file(img, "output.txt");
+
+    printf("Basic image data of '%s': %dx%d resolution - %d size\n", argv[1], img->header.width, img->header.height, (img->header.width * 3) * img->header.height);
 
     return 0;
 }
