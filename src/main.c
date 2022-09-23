@@ -137,7 +137,7 @@ struct PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
 
             options.input = strlen(value);
 
-            options.input_path = (char*) malloc(options.input * sizeof(char));
+            options.input_path = (char*) malloc(options.input * sizeof(char) + 1);
 
             strcpy(options.input_path, value);
 
@@ -155,7 +155,7 @@ struct PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
 
             options.output = strlen(value);
 
-            options.output_path = (char*) malloc(options.output * sizeof(char));
+            options.output_path = (char*) malloc(options.output * sizeof(char) + 1);
 
             strcpy(options.output_path, value);
 
