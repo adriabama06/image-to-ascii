@@ -47,7 +47,7 @@ typedef struct image_struct
 
 int main(int argc, const char *argv[])
 {
-    FILE* input_image = fopen("image_files\\renai_circulation_random_res.bmp", "rb");
+    FILE* input_image = fopen(argv[1], "rb");
 
     if(input_image == NULL)
     {

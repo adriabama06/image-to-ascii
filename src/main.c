@@ -9,10 +9,6 @@
 
 #include <dirent.h>
 
-#ifndef DT_REG
-    #define DT_REG 8
-#endif
-
 struct PROGRAM_USER_INPUT
 {    
     int input;
@@ -280,7 +276,7 @@ int main(int argc, const char *argv[])
 
             strcpy(file_bmp_extension, file_name_no_extension);
 
-            strcat(file_bmp_extension, ".bmp");
+            strcat(file_bmp_extension, ".txt");
 
             char* file_output = (char*) malloc((options.output + strlen(file_bmp_extension) + 1) * sizeof(char));
 
@@ -298,7 +294,7 @@ int main(int argc, const char *argv[])
                 }
             #endif
 
-            strcat(file_input, file_bmp_extension);
+            strcat(file_output, file_bmp_extension);
 
             convert(file_input, file_output);
         }
