@@ -91,6 +91,42 @@ int isDir(char* dir_path)
     return 1;
 }
 
+char** get_files_in_dir(char* dir, uint32_t* array_count)
+{
+    DIR* dir_to_scan = opendir(dir);
+
+    uint32_t files_count = 0;
+
+    while (readdir(dir_to_scan)) {files_count++;}
+
+    seekdir(dir_to_scan, 0);
+
+    char** toreturn = (char**) malloc(files_count * sizeof(char*));
+
+    struct dirent *dfile;
+    
+    for (uint32_t i = 0; i < files_count; i++)
+    {
+        dfile = readdir(dir_to_scan);
+
+        if(dfile->d_type == DT_REG)
+        {
+            if(endsWith(dfile->d_name, ".bmp"))
+            {
+                toreturn[*array_count] = (char*) malloc(strlen(dfile->d_name) * sizeof(char) + 1);
+
+                strcpy(toreturn[*array_count], dfile->d_name);
+            
+                *array_count++;
+            }
+        }
+    }
+    
+    closedir(dir_to_scan);
+
+    return toreturn;
+}
+
 void invalidArguments(int i, int argc)
 {
     if(i + 1 > argc)
@@ -221,43 +257,14 @@ int main(int argc, const char *argv[])
     }
     else
     {
-        DIR* images_folder = opendir(options.input_path);
-        
-        long files_count = 0;
+        uint32_t bmp_files_len = 0;
+        char** bmp_files = get_files_in_dir(options.input_path, bmp_files_len);
 
-        while (readdir(images_folder)) {files_count++;}
-    
-        seekdir(images_folder, 0);
-
-        struct dirent *dfile;
-
-        char** files_to_work = (char**) malloc(files_count * sizeof(char*));
-        long files_to_work_len = 0;
-
-        for (long i = 0; i < files_count; i++)
+        for (long i = 0; i < bmp_files_len; i++)
         {
-            dfile = readdir(images_folder);
+            char* file = bmp_files[i];
 
-            if(dfile->d_type == DT_REG)
-            {
-                if(endsWith(dfile->d_name, ".bmp"))
-                {
-                    files_to_work[files_to_work_len] = (char*) malloc(strlen(dfile->d_name) * sizeof(char) + 1);
-
-                    strcpy(files_to_work[files_to_work_len], dfile->d_name);
-                
-                    files_to_work_len++;
-                }
-            }
-        }
-
-        closedir(images_folder);
-
-        for (long i = 0; i < files_to_work_len; i++)
-        {
-            char* file = files_to_work[i];
-
-            printf("(%d > %d) - %s\n", i, files_to_work_len, file);
+            printf("(%d > %d) - %s\n", i, bmp_files_len, file);
 
             char* file_input = (char*) malloc((options.input + strlen(file) + 2) * sizeof(char));
 
