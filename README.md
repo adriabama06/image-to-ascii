@@ -1,4 +1,5 @@
-## Read bmp is easy than .png or other format in C
+# Download:
+[Here](https://github.com/adriabama06/image-to-image-of-characters/releases/tag/v0.0.1)
 
 For complie create build folder.
 
