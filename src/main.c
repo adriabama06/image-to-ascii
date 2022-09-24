@@ -45,7 +45,7 @@ int endsWith(char* str, char* sub_str)
 
 char* get_filename(char* file)
 {
-    char* filename = (char*) malloc(strlen(file) * sizeof(char));
+    char* filename = (char*) malloc(strlen(file) * sizeof(char) + 1);
 
     strcpy(filename, file);
 
@@ -63,7 +63,7 @@ char* get_filename(char* file)
 
 char* get_extension(char* file)
 {
-    char* filename = (char*) malloc(strlen(file) * sizeof(char));
+    char* filename = (char*) malloc(strlen(file) * sizeof(char) + 1);
 
     strcpy(filename, file);
 
@@ -199,6 +199,10 @@ void convert(char* input, char* output)
     IMAGE* img = image_invert(raw_img);
 
     image_to_char_file(img, output);
+
+    free(bmp_data);
+    free(raw_img);
+    free(img);
 }
 
 int main(int argc, const char *argv[])
@@ -238,7 +242,7 @@ int main(int argc, const char *argv[])
             {
                 if(endsWith(dfile->d_name, ".bmp"))
                 {
-                    files_to_work[files_to_work_len] = (char*) malloc(strlen(dfile->d_name) * sizeof(char));
+                    files_to_work[files_to_work_len] = (char*) malloc(strlen(dfile->d_name) * sizeof(char) + 1);
 
                     strcpy(files_to_work[files_to_work_len], dfile->d_name);
                 
@@ -247,21 +251,25 @@ int main(int argc, const char *argv[])
             }
         }
 
+        closedir(images_folder);
+
         for (long i = 0; i < files_to_work_len; i++)
         {
             char* file = files_to_work[i];
 
-            char* file_input = (char*) malloc((options.input + strlen(file) + 1) * sizeof(char));
+            printf("(%d > %d) - %s\n", i, files_to_work_len, file);
+
+            char* file_input = (char*) malloc((options.input + strlen(file) + 2) * sizeof(char));
 
             strcpy(file_input, options.input_path);
 
             #ifdef _WIN32
-                if(!endsWith(options.input_path, "\\"))
+                if(endsWith(options.input_path, "\\") == 0)
                 {
                     strcat(file_input, "\\");
                 }
             #else
-                if(!endsWith(options.input_path, "/"))
+                if(endsWith(options.input_path, "/") == 0)
                 {
                     strcat(file_input, "/");
                 }
@@ -272,31 +280,38 @@ int main(int argc, const char *argv[])
 
             char* file_name_no_extension = get_filename(file);
 
-            char* file_bmp_extension = malloc((strlen(file_name_no_extension) + strlen(".bmp")) * sizeof(char));
+            char* file_extension = malloc((strlen(file_name_no_extension) + strlen(".txt") + 2) * sizeof(char));
 
-            strcpy(file_bmp_extension, file_name_no_extension);
+            strcpy(file_extension, file_name_no_extension);
 
-            strcat(file_bmp_extension, ".txt");
+            strcat(file_extension, ".txt");
 
-            char* file_output = (char*) malloc((options.output + strlen(file_bmp_extension) + 1) * sizeof(char));
+            char* file_output = (char*) malloc((options.output + strlen(file_extension) + 2) * sizeof(char));
 
             strcpy(file_output, options.output_path);
 
             #ifdef _WIN32
-                if(!endsWith(options.output_path, "\\"))
+                if(endsWith(options.output_path, "\\") == 0)
                 {
                     strcat(file_output, "\\");
                 }
             #else
-                if(!endsWith(options.output_path, "/"))
+                if(endsWith(options.output_path, "/") == 0)
                 {
                     strcat(file_output, "/");
                 }
             #endif
 
-            strcat(file_output, file_bmp_extension);
+            strcat(file_output, file_extension);
+
+            printf("%s -> %s\n", file_input, file_output);
 
             convert(file_input, file_output);
+
+            free(file_input);
+            free(file_name_no_extension);
+            free(file_extension);
+            free(file_output);
         }
     }
 
