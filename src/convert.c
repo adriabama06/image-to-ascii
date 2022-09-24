@@ -32,7 +32,7 @@ void *convert_multithread(void *__args)
     {
         char *file = args->bmp_files->data[i];
 
-        printf("(%d > %d) - %s\n", i, args->bmp_files->length, file);
+        printf("(%d > %d) - %s\n", i + 1, args->bmp_files->length, file);
 
         char *file_input = (char*) malloc((args->input_path_length + strlen(file) + 2) * sizeof(char));
 
