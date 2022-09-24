@@ -8,3 +8,8 @@ to use, create a folder with name `input` and here put the .bmp files, if you ha
 ```
 ffmpeg -i <video> -pix_fmt bgr24 input/%04d.bmp
 ```
+## Windows !!!
+On Windows only work if you have installed https://sourceforge.net/projects/mingw/ and add gcc and gdb
+```
+gdb -ex r --args "image-to-image-of-characters.exe" "-i" "..\\multiple_input\\input\\" "-o" "..\\multiple_input\\output\\"
+```
