@@ -83,6 +83,8 @@ void image_to_char_file(IMAGE* img, const char* output)
     
     fclose(result);
 
+    free(img_char);
+
     return;
 }
 

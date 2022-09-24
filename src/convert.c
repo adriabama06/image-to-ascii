@@ -24,17 +24,17 @@ void convert(char *input, char *output)
     free(img);
 }
 
-void *convert_multithread(void *__args)
+void *convert_multithread(void* __args)
 {
-    struct CONVERT_ARGS_STRUCT *args = (struct CONVERT_ARGS_STRUCT *) __args;
+    struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) __args;
 
     for (uint32_t i = args->from; i < args->to; i++)
     {
-        char *file = args->bmp_files->data[i];
+        char* file = args->bmp_files->data[i];
 
         printf("(%d > %d) - %s\n", i + 1, args->bmp_files->length, file);
 
-        char *file_input = (char*) malloc((args->input_path_length + strlen(file) + 2) * sizeof(char));
+        char* file_input = (char*) malloc((args->input_path_length + strlen(file) + 2) * sizeof(char));
 
         strcpy(file_input, args->input_path);
 
@@ -52,15 +52,15 @@ void *convert_multithread(void *__args)
 
         strcat(file_input, file);
 
-        char *file_name_no_extension = get_filename(file);
+        char* file_name_no_extension = get_filename(file);
 
-        char *file_extension = (char*) malloc((strlen(file_name_no_extension) + strlen(".txt") + 2) * sizeof(char));
+        char* file_extension = (char*) malloc((strlen(file_name_no_extension) + strlen(".txt") + 2) * sizeof(char));
 
         strcpy(file_extension, file_name_no_extension);
 
         strcat(file_extension, ".txt");
 
-        char *file_output = (char*) malloc((args->output_path_length + strlen(file_extension) + 2) * sizeof(char));
+        char* file_output = (char*) malloc((args->output_path_length + strlen(file_extension) + 2) * sizeof(char));
 
         strcpy(file_output, args->output_path);
 
