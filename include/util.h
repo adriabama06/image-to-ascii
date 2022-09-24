@@ -6,7 +6,7 @@ typedef struct STRING_ARRAY_STRUCT
     uint32_t length;
 } STRING_ARRAY;
 
-struct PROGRAM_USER_INPUT
+typedef struct PROGRAM_USER_INPUT_STRUCT
 {    
     int input;
     int is_input_folder;
@@ -17,7 +17,7 @@ struct PROGRAM_USER_INPUT
     char* output_path;
 
     int multithread; // for futere implementation
-};
+} PROGRAM_USER_INPUT;
 
 int endsWith(char*, char*);
 
@@ -29,6 +29,21 @@ int isDir(char*);
 
 void invalidArguments(int, int);
 
-struct PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[]);
+PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[]);
 
 STRING_ARRAY* search_bmp(const char*);
+
+void convert(char* input, char* output);
+
+struct CONVERT_ARGS_STRUCT
+{
+    uint32_t from;
+    uint32_t to;
+    STRING_ARRAY* bmp_files;
+    char* input_path;
+    int input_path_length;
+    char* output_path;
+    int output_path_length;
+};
+
+void* convert_multithread(void* __args /* struct CONVERT_ARGS_STRUCT */);

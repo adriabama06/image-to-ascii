@@ -15,9 +15,9 @@ void invalidArguments(int i, int argc)
     return;
 }
 
-struct PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
+PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
 {
-    struct PROGRAM_USER_INPUT options;
+    PROGRAM_USER_INPUT options;
 
     options.input = 0;
     options.output = 0;
