@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <memory.h>
 
 IMAGE* bmp_data_to_image(BMP_DATA* bmp_data)
 {
@@ -74,16 +75,52 @@ void image_to_char_file(IMAGE* img, const char* output)
 {
     FILE* result = fopen(output, "w");
 
-    char* img_char = image_to_char(img);
+    uint32_t width_count = 0;
 
-    for (long i = 0; img_char[i] != '\0'; i++)
+    uint32_t result_count = 0;
+
+    for (uint32_t i = 0; i <= img->header.width * img->header.height; result_count++)
     {
-        fwrite(&img_char[i], sizeof(char), 1, result);
+        width_count++;
+        
+        if(width_count <= img->header.width)
+        {
+            RGB pixel = img->pixels[i++];
+
+            uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
+
+            if(avg < 85)
+            {
+                fwrite(" ", sizeof(char), 1, result);
+            } 
+            else if(avg > 85 && avg < 170)
+            {
+                fwrite("/", sizeof(char), 1, result);
+
+            }
+            else
+            {
+                fwrite("#", sizeof(char), 1, result);
+            }
+        }
+        else
+        {
+            fwrite("\n", sizeof(char), 1, result);
+            width_count = 0;
+        }
     }
+
+    // HELP: Idk why i can't free img_char if i do this:
+    // char* img_char = image_to_char(img);
+
+    // for (uint32_t i = 0; img_char[i] != '\0'; i++)
+    // {
+    //     fwrite(&img_char[i], sizeof(char), 1, result);
+    // }
+
+    // free(img_char);
     
     fclose(result);
-
-    free(img_char);
 
     return;
 }
@@ -92,7 +129,7 @@ char* image_to_char(IMAGE* img)
 {
     uint32_t size = img->header.width * img->header.height;
 
-    char* result = (char*) malloc(size + img->header.height);
+    char* result = (char*) malloc((size + img->header.height) * sizeof(char));
 
     uint32_t width_count = 0;
 
