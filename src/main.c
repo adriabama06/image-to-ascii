@@ -12,7 +12,7 @@
 #include <dirent.h>
 
 #ifdef _WIN32
-
+    #include <windows.h>
 #else
     #include <pthread.h>
 #endif
@@ -55,7 +55,7 @@ int main(int argc, const char *argv[])
         else
         {
             #ifdef _WIN32
-
+                HANDLE* threads = (HANDLE*) calloc(options.multithread, sizeof(HANDLE));
             #else
                 pthread_t threads[options.multithread];
             #endif
@@ -76,7 +76,7 @@ int main(int argc, const char *argv[])
                 args->output_path_length = options.output;
 
                 #ifdef _WIN32
-
+                    threads[i] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) convert_multithread, args, 0, NULL);
                 #else
                     pthread_create(&threads[i], NULL, convert_multithread, args);
                 #endif
@@ -84,7 +84,7 @@ int main(int argc, const char *argv[])
             
             for(int i = 0; i < options.multithread; i++) {
                 #ifdef _WIN32
-
+                    WaitForSingleObject(threads[i], INFINITE);
                 #else
                     pthread_join(threads[i], NULL);
                 #endif
