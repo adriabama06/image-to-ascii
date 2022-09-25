@@ -1,5 +1,5 @@
 # Download:
-[Here](https://github.com/adriabama06/image-to-image-of-characters/releases/tag/v0.0.1)
+[Here](https://github.com/adriabama06/image-to-image-of-characters/releases/tag/v0.0.2)
 
 For complie create build folder and run: `cmake .. && cmake --build .` In the build directory
 
@@ -10,16 +10,8 @@ For a video, create a folder with name `input` and here put the .bmp files, if y
 ffmpeg -i <video> -pix_fmt bgr24 input/%04d.bmp
 ```
 
-## Warning for Windows !!!
-Only on Windows using **folders** only work if you have installed https://sourceforge.net/projects/mingw/ and add gcc and gdb, or for me in my case. If is direcly a .bmp file no problem
-
-```
-Try:
-gdb -ex r --batch --args image-to-image-of-characters.exe -i multiple_input\input -o multiple_input\output
-
-If the command not run, try:
-gdb -ex r --batch --args "image-to-image-of-characters.exe" "-i" ".\\multiple_input\\input\\" "-o" ".\\multiple_input\\output\\"
-```
+## Warning
+Idk why when use folder, if you try to do more than 1300 in some point stops, idk why 
 
 # Example usage
 
