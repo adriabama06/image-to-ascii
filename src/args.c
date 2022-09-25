@@ -82,7 +82,7 @@ PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
             const char* value = argv[i];
 
             options.multithread = atoi(value);
-            
+
             continue;
         }
     }
@@ -98,6 +98,13 @@ PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
     {
         printf("If the input is a file, the output need to be a file, and the same for folders\n");
     
+        exit(0);
+    }
+
+    if(options.multithread < 0)
+    {
+        printf("Threads can't be negative, use -t 0 for single thread\n");
+
         exit(0);
     }
 

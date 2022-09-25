@@ -13,9 +13,9 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-if(WIN32) # idk how set in CMakeList.txt
-    set(CMAKE_GENERATOR "MinGW Makefiles")
-endif(WIN32)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(image-to-image-of-characters PRIVATE Threads::Threads)
 
 install(TARGETS image-to-image-of-characters DESTINATION bin)
 add_custom_target("uninstall" COMMENT "Uninstall installed files")

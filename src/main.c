@@ -11,6 +11,12 @@
 
 #include <dirent.h>
 
+#ifdef _WIN32
+
+#else
+    #include <pthread.h>
+#endif
+
 int main(int argc, const char *argv[])
 {
     if(argc < 2)
@@ -29,20 +35,61 @@ int main(int argc, const char *argv[])
     {
         STRING_ARRAY* bmp_files = search_bmp(options.input_path);
 
-        struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) malloc(sizeof(struct CONVERT_ARGS_STRUCT));
+        if (options.multithread == 0)
+        {
+            struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) malloc(sizeof(struct CONVERT_ARGS_STRUCT));
 
-        args->bmp_files = bmp_files;
+            args->bmp_files = bmp_files;
 
-        args->from = 0;
-        args->to = bmp_files->length;
+            args->from = 0;
+            args->to = bmp_files->length;
 
-        args->input_path = options.input_path;
-        args->input_path_length = options.input;
+            args->input_path = options.input_path;
+            args->input_path_length = options.input;
 
-        args->output_path = options.output_path;
-        args->output_path_length = options.output;
+            args->output_path = options.output_path;
+            args->output_path_length = options.output;
 
-        convert_multithread(args);
+            convert_multithread(args);
+        }
+        else
+        {
+            #ifdef _WIN32
+
+            #else
+                pthread_t threads[options.multithread];
+            #endif
+
+            for (int i = 0; i < options.multithread; i++)
+            {
+                struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) malloc(sizeof(struct CONVERT_ARGS_STRUCT));
+
+                args->bmp_files = bmp_files;
+
+                args->from = (i * (bmp_files->length / options.multithread));
+                args->to = ((i + 1) * (bmp_files->length / options.multithread));
+
+                args->input_path = options.input_path;
+                args->input_path_length = options.input;
+
+                args->output_path = options.output_path;
+                args->output_path_length = options.output;
+
+                #ifdef _WIN32
+
+                #else
+                    pthread_create(&threads[i], NULL, convert_multithread, args);
+                #endif
+            }
+            
+            for(int i = 0; i < options.multithread; i++) {
+                #ifdef _WIN32
+
+                #else
+                    pthread_join(threads[i], NULL);
+                #endif
+            }
+        }
     }
 
     return 0;
