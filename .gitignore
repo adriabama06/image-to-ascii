@@ -1,6 +1,7 @@
 # Custom
 .vscode
 build
+dev_test
 
 # https://github.com/github/gitignore/blob/main/CMake.gitignore
 CMakeLists.txt.user
