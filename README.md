@@ -1,5 +1,6 @@
 # Download:
-[Here](https://github.com/adriabama06/image-to-image-of-characters/releases/tag/v0.0.2)
+[Windows x64/x32](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-Win32bits.exe)
+[Linux ARM64](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-ARM64)
 
 For complie create build folder and run: `cmake .. && cmake --build .` In the build directory
 
@@ -9,9 +10,6 @@ For a video, create a folder with name `input` and here put the .bmp files, if y
 ```
 ffmpeg -i <video> -pix_fmt bgr24 input/%04d.bmp
 ```
-
-## Warning
-Idk why when use folder, if you try to do more than 1300 in some point stops, idk why 
 
 # Example usage
 
