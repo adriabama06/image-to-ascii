@@ -39,6 +39,8 @@ int main(int argc, const char *argv[])
         {
             struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) malloc(sizeof(struct CONVERT_ARGS_STRUCT));
 
+            args->verbose = options.verbose;
+
             args->bmp_files = bmp_files;
 
             args->from = 0;
@@ -63,6 +65,8 @@ int main(int argc, const char *argv[])
             for (int i = 0; i < options.multithread; i++)
             {
                 struct CONVERT_ARGS_STRUCT* args = (struct CONVERT_ARGS_STRUCT*) malloc(sizeof(struct CONVERT_ARGS_STRUCT));
+
+                args->verbose = options.verbose;
 
                 args->bmp_files = bmp_files;
 

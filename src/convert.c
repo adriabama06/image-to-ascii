@@ -32,8 +32,6 @@ void *convert_multithread(void* __args)
     {
         char* file = args->bmp_files->data[i];
 
-        printf("(%d > %d) - %s\n", i + 1, args->bmp_files->length, file);
-
         char* file_input = (char*) malloc((args->input_path_length + strlen(file) + 2) * sizeof(char));
 
         strcpy(file_input, args->input_path);
@@ -78,7 +76,11 @@ void *convert_multithread(void* __args)
 
         strcat(file_output, file_extension);
 
-        printf("%s -> %s\n", file_input, file_output);
+        if(args->verbose)
+        {
+            printf("(%d > %d) - %s\n", i + 1, args->bmp_files->length, file);
+            printf("%s -> %s\n", file_input, file_output);
+        }
 
         convert(file_input, file_output);
 

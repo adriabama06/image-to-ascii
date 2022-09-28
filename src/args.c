@@ -22,6 +22,7 @@ PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
     options.input = 0;
     options.output = 0;
     options.multithread = 0;
+    options.verbose = 0;
 
     for (int i = 1; i < argc; i++)
     {
@@ -34,6 +35,7 @@ PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
             printf("  -i - Input file or folder, ONLY .bmp FILE SUPPORT\n");
             printf("  -o - Output file or folder if the input is a folder\n");
             printf("  (Optional) -t - Define number of threads for multithread, only work if the input is a folder\n");
+            printf("  (Optional) -v - Verbose output\n");
 
             exit(0);
         }
@@ -82,6 +84,13 @@ PROGRAM_USER_INPUT parseArguments(int argc, const char *argv[])
             const char* value = argv[i];
 
             options.multithread = atoi(value);
+
+            continue;
+        }
+
+        if(strcmp(arg, "-v") == 0)
+        {
+            options.verbose = 1;
 
             continue;
         }

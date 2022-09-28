@@ -17,6 +17,8 @@ typedef struct PROGRAM_USER_INPUT_STRUCT
     char* output_path;
 
     int multithread; // for futere implementation
+
+    int verbose;
 } PROGRAM_USER_INPUT;
 
 int endsWith(char*, char*);
@@ -44,6 +46,7 @@ struct CONVERT_ARGS_STRUCT
     int input_path_length;
     char* output_path;
     int output_path_length;
+    int verbose;
 };
 
 void* convert_multithread(void* __args /* struct CONVERT_ARGS_STRUCT */);
