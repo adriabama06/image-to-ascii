@@ -19,8 +19,13 @@ void convert(char *input, char *output)
 
     image_to_char_file(img, output);
 
+    free(bmp_data->data);
     free(bmp_data);
+
+    free(raw_img->pixels);
     free(raw_img);
+
+    free(img->pixels);
     free(img);
 }
 

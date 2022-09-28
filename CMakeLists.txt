@@ -11,6 +11,7 @@ target_include_directories(image-to-image-of-characters PUBLIC "${CMAKE_CURRENT_
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+
 include(CPack)
 
 if(NOT WIN32)
