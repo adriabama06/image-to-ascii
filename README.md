@@ -2,6 +2,10 @@
 [Windows x64/x32](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-Win32bits.exe) <br>
 [Linux ARM64](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-ARM64)
 
+## Limiatations:
+- Only support .bmp image
+- The .bmp file can't be compressed
+
 For complie create build folder and run: `cmake .. && cmake --build .` In the build directory
 
 What is this? A conversor of any image to charecters.
@@ -30,3 +34,6 @@ image-to-image-of-characters -i my_image.bmp -o my_image_as_chars.txt
 # A folder:
 image-to-image-of-characters -i my_folder -o my_output_folder
 ```
+
+## Libraries used
+All the program is created from 0, only C Standard Library Functions
