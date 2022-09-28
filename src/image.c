@@ -10,9 +10,23 @@ IMAGE* bmp_data_to_image(BMP_DATA* bmp_data)
 {
     IMAGE* img = (IMAGE*) malloc(sizeof(IMAGE));
 
+    if(img == NULL)
+    {
+        printf("Error on malloc for img\n");
+
+        exit(1);
+    }
+
     img->header = bmp_data->header;
 
     img->pixels = (RGB*) malloc((img->header.width * img->header.height) * sizeof(RGB));
+
+    if(img->pixels == NULL)
+    {
+        printf("Error on malloc for img->pixels\n");
+
+        exit(1);
+    }
 
     uint32_t padding = img->header.width - ((img->header.width / 4) * 4);
 

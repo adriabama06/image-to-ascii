@@ -34,7 +34,21 @@ BMP_DATA* bmp_read_data(const char* file)
 
     bmp_data->data = (uint8_t*) malloc(bmp_data->header.imagesize);
 
-    fread(bmp_data->data, 1, bmp_data->header.imagesize, input_image);
+    if(bmp_data->data == NULL)
+    {
+        printf("Error on malloc for bmp data\n");
+
+        exit(1);
+    }
+
+    size_t r = fread(bmp_data->data, 1, bmp_data->header.imagesize, input_image);
+
+    if(r < bmp_data->header.imagesize)
+    {
+        printf("Read: %d but expected read %d\n", r, bmp_data->header.imagesize);
+
+        exit(1);
+    }
 
     fclose(input_image);
 
