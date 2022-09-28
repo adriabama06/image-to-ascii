@@ -1,5 +1,5 @@
 # Download:
-[Windows x64/x32](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-Win32bits.exe)
+[Windows x64/x32](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-Win32bits.exe) <br>
 [Linux ARM64](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-ARM64)
 
 For complie create build folder and run: `cmake .. && cmake --build .` In the build directory
