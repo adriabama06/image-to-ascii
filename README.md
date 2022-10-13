@@ -1,3 +1,6 @@
+# Todo:
+Solve one extra line in Windows
+
 # Download:
 [Windows x64/x32](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-Win32bits.exe) <br>
 [Linux ARM64](https://github.com/adriabama06/image-to-image-of-characters/releases/download/v0.0.3/image-to-image-of-characters-ARM64)
