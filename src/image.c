@@ -113,15 +113,15 @@ void image_to_char_file(IMAGE* img, const char* output)
             }
             else if(avg > 62 && avg < 115)
             {
-                fwrite("x", sizeof(char), 1, result);
+                fwrite("/", sizeof(char), 1, result);
             }
             else if(avg > 115 && avg < 126)
             {
-                fwrite("/", sizeof(char), 1, result);
+                fwrite("%%", sizeof(char), 1, result);
             }
             else if(avg > 157 && avg < 199)
             {
-                fwrite("=", sizeof(char), 1, result);
+                fwrite("&", sizeof(char), 1, result);
             }
             else
             {
@@ -170,13 +170,25 @@ char* image_to_char(IMAGE* img)
 
             uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
 
-            if(avg < 85)
+            if(avg < 31)
             {
                 result[result_count] = ' ';
-            } 
-            else if(avg > 85 && avg < 170)
+            }
+            else if(avg > 31 && avg < 62)
+            {
+                result[result_count] = '-';
+            }
+            else if(avg > 62 && avg < 115)
             {
                 result[result_count] = '/';
+            }
+            else if(avg > 115 && avg < 126)
+            {
+                result[result_count] = '%';
+            }
+            else if(avg > 157 && avg < 199)
+            {
+                result[result_count] = '&';
             }
             else
             {
