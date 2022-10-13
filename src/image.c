@@ -103,19 +103,23 @@ void image_to_char_file(IMAGE* img, const char* output)
 
             uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
 
-            if(avg < 42)
+            if(avg < 31)
             {
                 fwrite(" ", sizeof(char), 1, result);
             }
-            else if(avg > 42 && avg < 84)
+            else if(avg > 31 && avg < 62)
             {
                 fwrite("-", sizeof(char), 1, result);
             }
-            else if(avg > 84 && avg < 126)
+            else if(avg > 62 && avg < 115)
+            {
+                fwrite("x", sizeof(char), 1, result);
+            }
+            else if(avg > 115 && avg < 126)
             {
                 fwrite("/", sizeof(char), 1, result);
             }
-            else if(avg > 126 && avg < 168)
+            else if(avg > 157 && avg < 199)
             {
                 fwrite("=", sizeof(char), 1, result);
             }
