@@ -93,7 +93,7 @@ void image_to_char_file(IMAGE* img, const char* output)
 
     uint32_t result_count = 0;
 
-    for (uint32_t i = 0; i <= img->header.width * img->header.height; result_count++)
+    for (uint32_t i = 0; i <= (img->header.width * img->header.height)-1; result_count++)
     {
         width_count++;
         
