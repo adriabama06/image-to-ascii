@@ -1,0 +1,15 @@
+-G "MinGW Makefiles"
+
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+cmake -DCMAKE_BUILD_TYPE=Release ..
+
+od -An -t x1 -j 4 -N 1 my_program // 1 = 32, 2 = 64
+
+sigcheck.exe program.exe // for know if is 32 or 64
+
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_BUILD_TYPE=RelWithDebInfo
