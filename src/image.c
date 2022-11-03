@@ -117,11 +117,11 @@ void image_to_char_file(IMAGE* img, const char* output)
             }
             else if(avg > 115 && avg < 126)
             {
-                fwrite("&", sizeof(char), 1, result);
+                fwrite("#", sizeof(char), 1, result);
             }
             else
             {
-                fwrite("#", sizeof(char), 1, result);
+                fwrite("@", sizeof(char), 1, result);
             }
         }
         else
@@ -180,11 +180,11 @@ char* image_to_char(IMAGE* img)
             }
             else if(avg > 115 && avg < 126)
             {
-                result[result_count] = '&';
+                result[result_count] = '#';
             }
             else
             {
-                result[result_count] = '#';
+                result[result_count] = '@';
             }
         }
         else
