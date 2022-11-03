@@ -20,6 +20,10 @@ if(NOT WIN32)
     target_link_libraries(image-to-ascii PRIVATE Threads::Threads)
 endif(NOT WIN32)
 
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O1")
+
 install(TARGETS image-to-ascii DESTINATION bin)
 add_custom_target("uninstall" COMMENT "Uninstall installed files")
 add_custom_command(
