@@ -1,2 +1,0 @@
-# Any in old folder only supports numbers dibisivle by 4:
-http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm#:~:text=Each%20scan%20line%20is%20zero%20padded%20to%20the%20nearest%204%2Dbyte%20boundary.%20If%20the%20image%20has%20a%20width%20that%20is%20not%20divisible%20by%20four%2C%20say%2C%2021%20bytes%2C%20there%20would%20be%203%20bytes%20of%20padding%20at%20the%20end%20of%20every%20scan%20line.
