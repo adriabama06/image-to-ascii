@@ -56,6 +56,7 @@ RGB* flip_horizontally(RGB* pixels, BITMAP_HEADER_FILE header)
     return flip_pixels;
 }
 
+// if return value is > 0 has errors 
 int bitmap_decode(FILE* bmp_file_fp, BITMAP* bmp)
 {
     /*
@@ -83,7 +84,7 @@ int bitmap_decode(FILE* bmp_file_fp, BITMAP* bmp)
     fseek(bmp_file_fp, bmp->header.dataoffset, SEEK_SET);
 
     // copy to memory rest of the file
-    uint8_t* raw_pixels = (uint8_t*) malloc(bmp->header.imagesize);
+    uint8_t* raw_pixels = (uint8_t*) malloc(bmp->header.imagesize * sizeof(uint8_t));
     fread(raw_pixels, 1, bmp->header.imagesize, bmp_file_fp);
  
     // parse pixels

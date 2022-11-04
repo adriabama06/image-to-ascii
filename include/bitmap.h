@@ -1,8 +1,10 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdint.h>
 
 // http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm
-typedef struct
+typedef struct BITMAP_HEADER_FILE_S
 {
     uint32_t filesize;
     uint32_t reserved;
@@ -23,13 +25,13 @@ typedef struct
     uint8_t signature[2]; // <-- this in theory need to go at the start, but for the padding this cause problems, see "test/padding.c"
 } BITMAP_HEADER_FILE;
 
-typedef struct {
+typedef struct RGB_S {
     uint8_t r;
     uint8_t g;
     uint8_t b;
 } RGB;
 
-typedef struct {
+typedef struct BITMAP_S {
     BITMAP_HEADER_FILE header;
     RGB* pixels;
 } BITMAP;

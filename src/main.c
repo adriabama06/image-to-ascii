@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "include/bitmap.h"
+#include "include/image.h"
 
 int main(int argc, char** argv)
 {
@@ -18,6 +19,14 @@ int main(int argc, char** argv)
 
 
     printf("RGB(%d, %d, %d)\n", bmp.pixels[0].r, bmp.pixels[0].g, bmp.pixels[0].b);
+
+    CHAR_ARRAY ascii = image2ascii(bmp, argv[3] != NULL ? argv[3] : DEFAULT_CHAR_PALETTE);
+
+    printf("%d\n", ascii.length);
+    
+    FILE* result_fd = fopen(argv[2], "w");
+
+    fwrite(ascii.data, sizeof(char), ascii.length-1, result_fd);
 
     /*
     BM == BM ?
