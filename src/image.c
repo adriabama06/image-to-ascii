@@ -30,19 +30,6 @@ CHAR_ARRAY image2ascii(BITMAP bmp, char* char_palette)
 
             uint8_t avg = (pixel.r + pixel.g + pixel.b) / 3;
 
-            // if(avg < 85)
-            // {
-            //     ascii.data[ascii.length] = ' ';
-            // } 
-            // else if(avg > 85 && avg < 170)
-            // {
-            //     ascii.data[ascii.length] = '/';
-            // }
-            // else
-            // {
-            //     ascii.data[ascii.length] = '#';
-            // }
-
             float __color_select = ((float) avg / 255.0f);
 
             uint8_t color_select = __color_select * color_palette_length;
@@ -50,11 +37,6 @@ CHAR_ARRAY image2ascii(BITMAP bmp, char* char_palette)
             if(color_select >= color_palette_length) {
 	            color_select = color_palette_length - 1;
             }
-
-            // I don't need this, unsigned number
-            // if(color_select < 0) {
-            // 	color_select = 0;
-            // }
 
             ascii.data[ascii.length] = char_palette[color_select];
         }
