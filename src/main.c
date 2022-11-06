@@ -3,6 +3,7 @@
 
 #include "include/bitmap.h"
 #include "include/image.h"
+#include "include/threads.h"
 
 int main(int argc, char** argv)
 {
@@ -38,4 +39,4 @@ int main(int argc, char** argv)
     free(bmp.pixels);
 
     return 0;
-};
+}

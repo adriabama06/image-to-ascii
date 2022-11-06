@@ -3,7 +3,7 @@
 #include "include/bitmap.h"
 
 #include <stdlib.h>
-#include <string.h> 
+#include <string.h>
 
 CHAR_ARRAY image2ascii(BITMAP bmp, char* char_palette)
 {
