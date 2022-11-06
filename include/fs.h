@@ -1,0 +1,2 @@
+int existDir(char*);
+
