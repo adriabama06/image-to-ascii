@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     
     FILE* result_fd = fopen(argv[2], "w");
 
-    fwrite(ascii.data, sizeof(char), ascii.length-1, result_fd);
+    fwrite(ascii.data, sizeof(char), ascii.length, result_fd);
 
     /*
     BM == BM ?
