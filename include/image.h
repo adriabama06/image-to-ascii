@@ -2,8 +2,8 @@
 
 #include "include/bitmap.h"
 
-#include "include/util.h"
+#include "include/string-util.h"
 
 #define DEFAULT_CHAR_PALETTE " .,-~:=$#@"
 
-CHAR_ARRAY image2ascii(BITMAP, char*);
+STRING image2ascii(BITMAP, char*);

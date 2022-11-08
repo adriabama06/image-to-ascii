@@ -1,5 +1,6 @@
 #include "include/string-util.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 int endsWith(char* str, char* sub_str)

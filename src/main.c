@@ -3,9 +3,10 @@
 
 #include "include/bitmap.h"
 #include "include/image.h"
+#include "include/fs.h"
 #include "include/threads.h"
 
-int main(int argc, char** argv)
+/*int nomain(int argc, char** argv)
 {
     FILE* bmp_fp = fopen(argv[1], "rb");
 
@@ -21,7 +22,7 @@ int main(int argc, char** argv)
 
     printf("RGB(%d, %d, %d)\n", bmp.pixels[0].r, bmp.pixels[0].g, bmp.pixels[0].b);
 
-    CHAR_ARRAY ascii = image2ascii(bmp, argv[3] != NULL ? argv[3] : DEFAULT_CHAR_PALETTE);
+    STRING ascii = image2ascii(bmp, argv[3] != NULL ? argv[3] : DEFAULT_CHAR_PALETTE);
 
     printf("%d\n", ascii.length);
     
@@ -33,10 +34,37 @@ int main(int argc, char** argv)
     BM == BM ?
     360x640
     RGB(228, 224, 225)
-    */
+    * /
     
     // clear memory dynamically created
     free(bmp.pixels);
+
+    return 0;
+}*/
+
+int main(int argc, const char** argv)
+{
+    const char* scandir = argv[1];
+    const char* extension = argv[2];
+
+    if(!existDir((char*) scandir))
+    {
+        printf("Dir \"%s\" does not exist\n", scandir);
+        return 1;
+    }
+
+    STRING_ARRAY files = search_files_by_suffix(scandir, (char*) extension);
+
+    printf("%d:\n", files.length);
+
+    for (uint32_t i = 0; i < files.length; i++)
+    {
+        printf("  %d -> %s (%d)\n", i, files.strings[i].data, files.strings[i].length);
+    
+        free(files.strings[i].data);
+    }
+
+    free(files.strings);
 
     return 0;
 }

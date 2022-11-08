@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-CHAR_ARRAY image2ascii(BITMAP bmp, char* char_palette)
+STRING image2ascii(BITMAP bmp, char* char_palette)
 {
     uint32_t color_palette_length = strlen(char_palette);
 
     uint32_t size = bmp.header.width * bmp.header.height;
 
-    CHAR_ARRAY ascii;
+    STRING ascii;
 
     ascii.length = 0;
     // size + bmp.header.height -> one extra vertical line for \n char
