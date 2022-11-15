@@ -97,13 +97,13 @@ int bitmap_decode(FILE* bmp_file_fp, BITMAP* bmp)
     pixel1.g = data[1]
     pixel1.r = data[2]
 
-    pixel2.b = data[0]
-    pixel2.g = data[1]
-    pixel2.r = data[2]
+    pixel2.b = data[3]
+    pixel2.g = data[4]
+    pixel2.r = data[5]
 
-    pixel3.b = data[0]
-    pixel3.g = data[1]
-    pixel3.r = data[2]
+    pixel3.b = data[6]
+    pixel3.g = data[7]
+    pixel3.r = data[8]
     */
     RGB* tmp_pixels = parse_raw_pixels(raw_pixels, bmp->header);
 

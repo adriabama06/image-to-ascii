@@ -3,6 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+STRING string_from(char* c_str)
+{
+    STRING str;
+
+    str.length = strlen(c_str);
+
+    str.data = (char*) malloc(str.length * sizeof(char));
+
+    strncpy(str.data, c_str, str.length);
+
+    return str;
+}
+
 int endsWith(char* str, char* sub_str)
 {
     int str_len = strlen(str);

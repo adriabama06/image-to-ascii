@@ -1,5 +1,6 @@
 #include "include/fs.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,12 +29,17 @@ STRING_ARRAY search_files_by_suffix(const char* dirpath, char* suffix)
     DIR* dir = opendir(dirpath);
     struct dirent *dfile;
 
+    if(dir == NULL)
+    {
+        printf("Error opening folder: %s\n", dirpath);
+        exit(0);
+    }
 
     STRING_ARRAY files;
     files.length = 0;
     files.strings = (STRING*) malloc(files.length * sizeof(STRING));
 
-    while (dfile = readdir(dir))
+    while ((dfile = readdir(dir)))
     {
         if (dfile->d_type == DT_REG)
         {

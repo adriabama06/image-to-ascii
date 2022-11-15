@@ -8,6 +8,8 @@ typedef struct STRING_S
     uint32_t length;
 } STRING;
 
+STRING string_from(char*);
+
 typedef struct STRING_ARRAY_S
 {
     STRING* strings;

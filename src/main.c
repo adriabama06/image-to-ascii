@@ -5,8 +5,10 @@
 #include "include/image.h"
 #include "include/fs.h"
 #include "include/threads.h"
+#include "include/player.h"
+#include "include/time.h"
 
-int main(int argc, char** argv)
+int old_main(int argc, char** argv)
 {
     FILE* bmp_fp = fopen(argv[1], "rb");
 
@@ -38,6 +40,44 @@ int main(int argc, char** argv)
     
     // clear memory dynamically created
     free(bmp.pixels);
+
+    return 0;
+}
+
+int main(int argc, const char** argv)
+{
+    PLAYER_ARGS args;
+
+    args.base_path = string_from("../txtframes/");
+
+    args.files = search_files_by_suffix("../txtframes/", ".txt");
+
+    sort_by_aplhabet(args.files);
+
+    args.framerate_ns = 1000000 / 30;
+
+    args.frames.strings = NULL;
+    args.frames.length = args.files.length;
+
+    args.dynamically_convert = 1;
+
+    args.color_palete = NULL;
+
+    player(args);
+
+    return 0;
+}
+
+int main_sleep(int argc, const char** argv)
+{
+    int sec_to_sleep = atoi(argv[1]);
+
+    SYSTEM_TIME t;
+
+    t.tv_usec = 0;
+    t.tv_sec = sec_to_sleep;
+
+    nanosleep(&t, &t);
 
     return 0;
 }
