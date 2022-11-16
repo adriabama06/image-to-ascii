@@ -12,7 +12,11 @@
 #include <stdint.h>
 #include <string.h>
 
-#define custom_print(str) printf("%s\n", str)
+#ifdef _WIN32
+    #define custom_print(str) printf("%s\n", str)
+#else
+    #define custom_print(str) printf("%s", str)
+#endif
 
 void player(PLAYER_ARGS data)
 {
@@ -44,14 +48,16 @@ void player(PLAYER_ARGS data)
 
         last_i = i;
 
-        if (data.frames.strings != NULL)
+        if(i == 0) i++; // make sure i != 0 because after this i do i - 1
+
+        if (data.convert == 0)
         {
-            custom_print(data.frames.strings[last_i - 1].data);
+            custom_print(data.frames.strings[i - 1].data);
 
             continue;
         }
         
-        STRING current_file = data.files.strings[last_i - 1];
+        STRING current_file = data.frames.strings[i - 1];
 
         STRING full_path;
         full_path.length = data.base_path.length + current_file.length;
@@ -61,16 +67,17 @@ void player(PLAYER_ARGS data)
         strncat(full_path.data, current_file.data, current_file.length);
 
         STRING frame;
+        uint8_t isBitmap = endsWith(current_file.data, ".bmp");
 
-        FILE* file_fp = data.dynamically_convert == 0 ? fopen(full_path.data, "r") : fopen(full_path.data, "rb");
+        FILE* file_fp = isBitmap ? fopen(full_path.data, "rb") : fopen(full_path.data, "r");
 
-        if(data.dynamically_convert && endsWith(current_file.data, ".bmp"))
+        if(isBitmap)
         {
             BITMAP bmp;
 
             bitmap_decode(file_fp, &bmp);
 
-            frame = image2ascii(bmp, data.color_palete != NULL ? data.color_palete : DEFAULT_CHAR_PALETTE);
+            frame = image2ascii(bmp, data.color_palete);
 
             free(bmp.pixels);
         }
@@ -94,6 +101,15 @@ void player(PLAYER_ARGS data)
         }
 
         fclose(file_fp);
+
+        if(data.clear_console)
+        {
+            clear_console();
+        }
+        else
+        {
+            printf("\n");
+        }
 
         custom_print(frame.data);
 

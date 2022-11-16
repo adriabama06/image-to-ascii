@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "include/bitmap.h"
 #include "include/image.h"
@@ -48,22 +49,23 @@ int main(int argc, const char** argv)
 {
     PLAYER_ARGS args;
 
-    args.base_path = string_from("../txtframes/");
+    args.base_path = string_from(argv[1]);
 
-    args.files = search_files_by_suffix("../txtframes/", ".txt");
+    args.frames = search_files_by_suffix(argv[1], argv[2]);
 
-    sort_by_aplhabet(args.files);
+    sort_by_aplhabet(args.frames);
 
-    args.framerate_ns = 1000000 / 30;
+    args.framerate_ns = fps_ns(atof(argv[3]));
 
-    args.frames.strings = NULL;
-    args.frames.length = args.files.length;
+    args.color_palete = argv[5] == NULL ? DEFAULT_CHAR_PALETTE : argv[5];
 
-    args.dynamically_convert = 1;
+    args.convert = 1;
 
-    args.color_palete = NULL;
+    args.clear_console = atoi(argv[4]);
 
     player(args);
+
+    printf("\n");
 
     return 0;
 }
