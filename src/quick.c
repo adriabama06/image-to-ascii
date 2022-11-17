@@ -61,7 +61,7 @@ void* convert_multiple_to_file(void* __data)
 
         if(data->options.verbose == 1)
         {
-            printf("%d - %s => %s\n", i, input.data, output.data);
+            printf("%d - %s => %s\n", i + 1, input.data, output.data);
         }
 
         free(input.data);

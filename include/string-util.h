@@ -16,6 +16,8 @@ typedef struct STRING_ARRAY_S
     uint32_t length;
 } STRING_ARRAY;
 
+void free_string_array(STRING_ARRAY);
+
 int endsWith(char*, char*);
 
 char* get_filename(char*);

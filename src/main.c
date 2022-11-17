@@ -11,7 +11,7 @@
 #include "include/time.h"
 #include "include/quick.h"
 
-int old_main(int argc, char** argv)
+/*int old_main(int argc, char** argv)
 {
     FILE* bmp_fp = fopen(argv[1], "rb");
 
@@ -39,7 +39,7 @@ int old_main(int argc, char** argv)
     BM == BM ?
     360x640
     RGB(228, 224, 225)
-    */
+    * /
     
     // clear memory dynamically created
     free(bmp.pixels);
@@ -84,13 +84,30 @@ int main_sleep(int argc, const char** argv)
     nanosleep(&t, &t);
 
     return 0;
-}
+}*/
 
 int main(int argc, const char** argv)
 {
     ARGUMENTS options = parseArguments(argc, argv);
 
-    convert_to_file(options.input.data, options.output.data, options.color_palete.data);
+    CONVERT_MULTIPLE_TO_FILE_ARGS data;
+
+    data.files = search_files_by_suffix(options.input.data, ".bmp");
+
+    data.from = 0;
+
+    data.to = data.files.length;
+
+    data.options = options;
+
+    convert_multiple_to_file((void*) &data);
+
+    // convert_to_file(options.input.data, options.output.data, options.color_palete.data);
+
+    free_string_array(data.files);
+
+    free(options.input.data);
+    free(options.output.data);
 
     return 0;
 }

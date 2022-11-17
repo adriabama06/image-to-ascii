@@ -32,21 +32,25 @@ STRING path_join(STRING path, STRING to_join)
 
     toreturn.length = path.length + to_join.length;
 
-    if(has_split)
+    if(!has_split)
     {
-        toreturn.length += 1;
+        //                 expect 1
+        toreturn.length += strlen(FOLDER_SPLIT);
     }
 
-    toreturn.data = (char*) malloc(toreturn.length * sizeof(char));
+    toreturn.data = (char*) malloc(toreturn.length + 1 * sizeof(char));
 
-    strncpy(toreturn.data, path.data, path.length);
+    //                                            + 1 for include '\0'
+    strncpy(toreturn.data, path.data, path.length + 1);
     
-    if (has_split)
+    if (!has_split)
     {
-        strncat(toreturn.data, FOLDER_SPLIT, 1);
+        // expect copy {'/', '\0'} (2), in strncat use strlen(x) + 1 for '\0'
+        strcat(toreturn.data, FOLDER_SPLIT);
     }
     
-    strncat(toreturn.data, to_join.data, to_join.length);
+    //                                                  + 1 for include '\0'
+    strncat(toreturn.data, to_join.data, to_join.length + 1);
 
     return toreturn;
 }

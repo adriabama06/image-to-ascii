@@ -90,6 +90,16 @@ char* get_extension(char* file)
     return ext;
 }
 
+void free_string_array(STRING_ARRAY arr)
+{
+    for (uint32_t i = 0; i < arr.length; i++)
+    {
+        free(arr.strings[i].data);
+    }
+
+    free(arr.strings);
+}
+
 void sort_by_aplhabet(STRING_ARRAY arr)
 {
     for(int i = 0; i < arr.length; i++)
