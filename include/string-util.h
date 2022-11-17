@@ -20,8 +20,4 @@ void free_string_array(STRING_ARRAY);
 
 int endsWith(char*, char*);
 
-char* get_filename(char*);
-
-char* get_extension(char*);
-
 void sort_by_aplhabet(STRING_ARRAY);

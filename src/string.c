@@ -37,59 +37,6 @@ int endsWith(char* str, char* sub_str)
     return 1;
 }
 
-char* get_filename(char* file)
-{
-    // myfile.txt
-    char* filename = (char*) malloc(strlen(file) * sizeof(char));
-
-    strcpy(filename, file);
-
-    // myfile.txt
-    //       |<-- return pointer to this word
-    char* ext = strrchr(filename, '.');
-
-    if(ext == NULL)
-    {
-        return NULL;
-    }
-
-    *ext = '\0';
-
-    /*
-        Ignore this if you not are adriabama06
-        TOME:
-            if i like, copy the filename to filename_clear because "txt" exist in memory but because is "\0" where "." whas before it uses extra memory
-    */
-
-    return filename;
-}
-
-char* get_extension(char* file)
-{
-    char* filename = (char*) malloc(strlen(file) * sizeof(char));
-
-    strcpy(filename, file);
-
-    char* ext = strrchr(filename, '.');
-
-    if(ext == NULL)
-    {
-        return NULL;
-    }
-
-    /*
-        Ignore this if you not are adriabama06
-        TOME:
-            SEE get_filename
-            ext_clear = malloc strlen(ext)
-            copy ext -> ext_clear
-            free ext
-            return ext_clear
-    */
-
-    return ext;
-}
-
 void free_string_array(STRING_ARRAY arr)
 {
     for (uint32_t i = 0; i < arr.length; i++)
