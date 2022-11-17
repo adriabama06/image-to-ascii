@@ -9,9 +9,13 @@ STRING string_from(const char* c_str)
 
     str.length = strlen(c_str);
 
-    str.data = (char*) malloc(str.length * sizeof(char));
+    //                                   + 1 for '\0'
+    str.data = (char*) malloc(str.length + 1 * sizeof(char));
 
-    strncpy(str.data, c_str, str.length);
+    //                                  + 1 for '\0'
+    strncpy(str.data, c_str, str.length + 1);
+
+    str.data[str.length] = '\0';
 
     return str;
 }

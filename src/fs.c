@@ -129,15 +129,9 @@ STRING_ARRAY search_files_by_suffix(const char* dirpath, char* suffix)
         {
             if (endsWith(dfile->d_name, suffix))
             {
-                STRING filename;
-                filename.length = strlen(dfile->d_name);
-                filename.data = (char*) malloc(filename.length * sizeof(char));
-
-                strcpy(filename.data, dfile->d_name);
-
                 files.strings = (STRING*) realloc(files.strings, (files.length + 1) * sizeof(STRING));
 
-                files.strings[files.length++] = filename;
+                files.strings[files.length++] = string_from(dfile->d_name);
             }
         }
     }

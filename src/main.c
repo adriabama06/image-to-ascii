@@ -71,7 +71,7 @@ int main(int argc, const char** argv)
         PLAYER_ARGS args;
 
         args.base_path = options.input;
-        
+
         STRING_ARRAY frames = search_files_by_suffix(options.input.data, ".bmp");
 
         if(frames.length == 0)
@@ -86,9 +86,9 @@ int main(int argc, const char** argv)
         }
 
         args.frames = frames;
-        
+
         sort_by_aplhabet(args.frames);
-        
+
         args.framerate_ns = fps_ns(options.fps);
         
         args.color_pallete = options.color_pallete.data == NULL ? DEFAULT_CHAR_PALETTE : options.color_pallete.data;
@@ -96,6 +96,8 @@ int main(int argc, const char** argv)
         args.convert = 1;
         
         args.clear_console = options.clear_console;
+
+        args.verbose = options.verbose;
 
         player(args);
 
