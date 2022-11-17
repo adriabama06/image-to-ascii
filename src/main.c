@@ -42,23 +42,23 @@ int main(int argc, const char** argv)
         }
 
         // do this for Win and Linux compatibility without use #ifdef ...
-        thread_t* threads = (thread_t*) malloc(options.threads * sizeof(thread_t));
+        thread_t* threads = (thread_t*) calloc(options.threads, sizeof(thread_t));
 
         STRING_ARRAY files = search_files_by_suffix(options.input.data, ".bmp");
 
         for (uint32_t i = 0; i < options.threads; i++)
         {
-            CONVERT_MULTIPLE_TO_FILE_ARGS data;
+            CONVERT_MULTIPLE_TO_FILE_ARGS* data = (CONVERT_MULTIPLE_TO_FILE_ARGS*) malloc(sizeof(CONVERT_MULTIPLE_TO_FILE_ARGS));
 
-            data.files = files;
+            data->files = files;
 
-            data.from = (i * (files.length / options.threads));;
+            data->from = (i * (files.length / options.threads));
 
-            data.to = ((i + 1) * (files.length / options.threads));
+            data->to = ((i + 1) * (files.length / options.threads));
 
-            data.options = options;
+            data->options = options;
 
-            thread_create(&threads[i], convert_multiple_to_file, (void*) &data);
+            thread_create(&threads[i], convert_multiple_to_file, (void*) data);
         }
 
         for (uint32_t i = 0; i < options.threads; i++)
