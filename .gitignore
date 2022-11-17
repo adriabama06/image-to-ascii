@@ -4,6 +4,7 @@ build
 frames
 txtframes
 ignore
+output
 
 # CMake
 
