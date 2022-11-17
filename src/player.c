@@ -75,7 +75,7 @@ void player(PLAYER_ARGS data)
 
             bitmap_decode(file_fp, &bmp);
 
-            frame = image2ascii(bmp, data.color_palete);
+            frame = image2ascii(bmp, data.color_pallete);
 
             free(bmp.pixels);
         }

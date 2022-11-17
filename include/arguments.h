@@ -11,7 +11,7 @@ typedef struct ARGUMENTS_S
 
     uint32_t play;
     double fps;
-    STRING color_palete;
+    STRING color_pallete;
     uint32_t clear_console;
 
     uint32_t threads;

@@ -29,9 +29,9 @@ typedef struct PLAYER_ARGS_S
 
     /*
     example: ".-#"
-    set DEFAULT_CHAR_PALETTE from "image.h" for default color palete
+    set DEFAULT_CHAR_PALETTE from "image.h" for default color pallete
     */
-    char* color_palete;
+    char* color_pallete;
 
     // clear console before new line is printed, ONLY WORK ON LINUX!
     uint8_t clear_console;

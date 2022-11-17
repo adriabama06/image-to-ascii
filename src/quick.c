@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <string.h>
 
-void convert_to_file(const char* input, const char* output, char* color_palete)
+void convert_to_file(const char* input, const char* output, char* color_pallete)
 {
     FILE* bmp_fd = fopen(input, "rb");
     
@@ -20,7 +20,7 @@ void convert_to_file(const char* input, const char* output, char* color_palete)
 
     fclose(bmp_fd);
 
-    STRING ascii = image2ascii(bmp, color_palete != NULL ? color_palete : DEFAULT_CHAR_PALETTE);
+    STRING ascii = image2ascii(bmp, color_pallete != NULL ? color_pallete : DEFAULT_CHAR_PALETTE);
 
     FILE* result_fd = fopen(output, "w");
 
@@ -57,7 +57,7 @@ void* convert_multiple_to_file(void* __data)
 
         STRING output = path_join(data->options.output, output_file);
 
-        convert_to_file(input.data, output.data, data->options.color_palete.data);
+        convert_to_file(input.data, output.data, data->options.color_pallete.data);
 
         if(data->options.verbose == 1)
         {

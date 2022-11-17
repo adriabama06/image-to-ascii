@@ -33,8 +33,8 @@ ARGUMENTS parseArguments(int argc, const char** argv)
 
     options.play = 0;
     options.fps = 0.0;
-    options.color_palete.data = NULL;
-    options.color_palete.length = 0;
+    options.color_pallete.data = NULL;
+    options.color_pallete.length = 0;
     options.clear_console = 0;
 
     options.threads = 0;
@@ -53,7 +53,7 @@ ARGUMENTS parseArguments(int argc, const char** argv)
             printf("  -o <file/folder> - Output file or folder, optional if you just want to play it, if you play the input it will not save any file\n");
             printf("  -p - Play the input file / folder, optional if you just want to convert it\n");
             printf("  -fps <number> - Set framerate in frames per second, example: 30, 24, 60, 23.976023976 (for cinema using float numbers use: \"1000 / (1001 / fps)\"), optional if you just want to convert it\n");
-            printf("  (Optional) -palete <string> - Set custom color palete for ascii, the default is: \"%s\"\n", DEFAULT_CHAR_PALETTE);
+            printf("  (Optional) -pallete <string> - Set custom color pallete for ascii, the default is: \"%s\"\n", DEFAULT_CHAR_PALETTE);
             printf("  (Optional) -clear-console - Linux only, clear console before new frame draw, good for clean console to make it look better, bad for ssh connections\n");
             printf("  (Optional) -t <number> - Threads for paralel frame conversion, sometimes can be slow than single thread, recomended on slow computers or if the folder has plenty of files\n");
             printf("  (Optional) -v - Verbose output\n");
@@ -102,14 +102,14 @@ ARGUMENTS parseArguments(int argc, const char** argv)
             continue;
         }
 
-        if(strcmp(arg, "-palete") == 0)
+        if(strcmp(arg, "-pallete") == 0)
         {
             invalidArguments(i, argc);
 
             i++;
             const char* value = argv[i];
 
-            options.color_palete = string_from(value);
+            options.color_pallete = string_from(value);
 
             continue;
         }
