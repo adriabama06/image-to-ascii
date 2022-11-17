@@ -157,5 +157,12 @@ ARGUMENTS parseArguments(int argc, const char** argv)
         exit(0);
     }
 
+    // if you only will use 1 thread directly don't waste time on create threard and do the process directly
+    if (options.threads == 1)
+    {
+        options.threads == 0;
+    }
+    
+
     return options;
 }

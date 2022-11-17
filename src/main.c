@@ -90,24 +90,92 @@ int main(int argc, const char** argv)
 {
     ARGUMENTS options = parseArguments(argc, argv);
 
-    CONVERT_MULTIPLE_TO_FILE_ARGS data;
+    if(options.play == 0)
+    {
+        if(!existDir(options.input.data))
+        {
+            convert_to_file(options.input.data, options.output.data, options.color_palete.data);
 
-    data.files = search_files_by_suffix(options.input.data, ".bmp");
+            return 0;
+        }
 
-    data.from = 0;
+        if(options.threads == 0)
+        {
+            CONVERT_MULTIPLE_TO_FILE_ARGS data;
 
-    data.to = data.files.length;
+            data.files = search_files_by_suffix(options.input.data, ".bmp");
 
-    data.options = options;
+            data.from = 0;
 
-    convert_multiple_to_file((void*) &data);
+            data.to = data.files.length;
 
-    // convert_to_file(options.input.data, options.output.data, options.color_palete.data);
+            data.options = options;
 
-    free_string_array(data.files);
+            convert_multiple_to_file((void*) &data);
 
-    free(options.input.data);
-    free(options.output.data);
+            return 0;
+        }
+
+        // do this for Win and Linux compatibility without use #ifdef ...
+        thread_t* threads = (thread_t*) malloc(options.threads * sizeof(thread_t));
+
+        STRING_ARRAY files = search_files_by_suffix(options.input.data, ".bmp");
+
+        for (uint32_t i = 0; i < options.threads; i++)
+        {
+            CONVERT_MULTIPLE_TO_FILE_ARGS data;
+
+            data.files = files;
+
+            data.from = (i * (files.length / options.threads));;
+
+            data.to = ((i + 1) * (files.length / options.threads));
+
+            data.options = options;
+
+            thread_create(&threads[i], convert_multiple_to_file, (void*) &data);
+        }
+
+        for (uint32_t i = 0; i < options.threads; i++)
+        {
+            thread_join(threads[i]);
+        }
+    }
+    else
+    {
+        PLAYER_ARGS args;
+
+        args.base_path = options.input;
+        
+        STRING_ARRAY frames = search_files_by_suffix(options.input.data, ".bmp");
+
+        if(frames.length == 0)
+        {
+            frames = search_files_by_suffix(options.input.data, ".txt");
+        }
+
+        if(frames.length == 0)
+        {
+            printf("Can't find any file like .bmp or .txt in: %s\n", options.input.data);
+            return 0;
+        }
+
+        args.frames = frames;
+        
+        sort_by_aplhabet(args.frames);
+        
+        args.framerate_ns = fps_ns(options.fps);
+        
+        args.color_palete = options.color_palete.data == NULL ? DEFAULT_CHAR_PALETTE : options.color_palete.data;
+        
+        args.convert = 1;
+        
+        args.clear_console = options.clear_console;
+
+        player(args);
+
+        printf("\n");
+    }
 
     return 0;
 }

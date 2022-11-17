@@ -65,10 +65,12 @@ void player(PLAYER_ARGS data)
         STRING frame;
         uint8_t isBitmap = endsWith(current_file.data, ".bmp");
 
-        FILE* file_fp = isBitmap ? fopen(full_path.data, "rb") : fopen(full_path.data, "r");
+        FILE* file_fp = NULL;
 
         if(isBitmap)
         {
+            file_fp = fopen(full_path.data, "rb");
+
             BITMAP bmp;
 
             bitmap_decode(file_fp, &bmp);
@@ -79,6 +81,8 @@ void player(PLAYER_ARGS data)
         }
         else if (endsWith(current_file.data, ".txt"))
         {
+            file_fp = fopen(full_path.data, "r");
+
             fseek(file_fp, 0, SEEK_END);
             frame.length = ftell(file_fp);
 
@@ -96,7 +100,10 @@ void player(PLAYER_ARGS data)
             frame.length = snprintf(frame.data, full_path.length, "Unknown what do at frame: %s", full_path.data);
         }
 
-        fclose(file_fp);
+        if(file_fp != NULL)
+        {
+            fclose(file_fp);
+        }
 
         if(data.clear_console)
         {
