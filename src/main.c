@@ -9,6 +9,7 @@
 #include "include/threads.h"
 #include "include/player.h"
 #include "include/time.h"
+#include "include/quick.h"
 
 int old_main(int argc, char** argv)
 {
@@ -89,7 +90,7 @@ int main(int argc, const char** argv)
 {
     ARGUMENTS options = parseArguments(argc, argv);
 
-    
+    convert_to_file(options.input.data, options.output.data, options.color_palete.data);
 
     return 0;
 }

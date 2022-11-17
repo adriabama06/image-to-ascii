@@ -1,3 +1,5 @@
+#pragma once
+
 #include "string-util.h"
 
 #include <stdint.h>

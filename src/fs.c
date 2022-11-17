@@ -24,6 +24,33 @@ int existDir(char* dir_path)
     return 1;
 }
 
+STRING path_join(STRING path, STRING to_join)
+{
+    STRING toreturn;
+
+    uint8_t has_split = endsWith(path.data, FOLDER_SPLIT);
+
+    toreturn.length = path.length + to_join.length;
+
+    if(has_split)
+    {
+        toreturn.length += 1;
+    }
+
+    toreturn.data = (char*) malloc(toreturn.length * sizeof(char));
+
+    strncpy(toreturn.data, path.data, path.length);
+    
+    if (has_split)
+    {
+        strncat(toreturn.data, FOLDER_SPLIT, 1);
+    }
+    
+    strncat(toreturn.data, to_join.data, to_join.length);
+
+    return toreturn;
+}
+
 STRING_ARRAY search_files_by_suffix(const char* dirpath, char* suffix)
 {
     DIR* dir = opendir(dirpath);

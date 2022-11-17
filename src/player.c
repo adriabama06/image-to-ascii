@@ -6,6 +6,7 @@
 #include "include/time.h"
 #include "include/console.h"
 #include "include/string-util.h"
+#include "include/fs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,13 +60,8 @@ void player(PLAYER_ARGS data)
         
         STRING current_file = data.frames.strings[i - 1];
 
-        STRING full_path;
-        full_path.length = data.base_path.length + current_file.length;
-        full_path.data = (char*) malloc(full_path.length * sizeof(char));
-
-        strncpy(full_path.data, data.base_path.data, data.base_path.length);
-        strncat(full_path.data, current_file.data, current_file.length);
-
+        STRING full_path = path_join(data.base_path, current_file);
+        
         STRING frame;
         uint8_t isBitmap = endsWith(current_file.data, ".bmp");
 
