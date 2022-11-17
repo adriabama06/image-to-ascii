@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "include/arguments.h"
 #include "include/bitmap.h"
 #include "include/image.h"
 #include "include/fs.h"
@@ -45,7 +46,7 @@ int old_main(int argc, char** argv)
     return 0;
 }
 
-int main(int argc, const char** argv)
+int main_player(int argc, const char** argv)
 {
     PLAYER_ARGS args;
 
@@ -80,6 +81,15 @@ int main_sleep(int argc, const char** argv)
     t.tv_sec = sec_to_sleep;
 
     nanosleep(&t, &t);
+
+    return 0;
+}
+
+int main(int argc, const char** argv)
+{
+    ARGUMENTS options = parseArguments(argc, argv);
+
+    
 
     return 0;
 }

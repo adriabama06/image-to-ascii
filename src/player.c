@@ -97,7 +97,7 @@ void player(PLAYER_ARGS data)
         else
         {
             frame.data = (char*) malloc(250 * sizeof(char));
-            frame.length = sprintf(frame.data, "Unknown what do at frame: %s", full_path.data);
+            frame.length = snprintf(frame.data, full_path.length, "Unknown what do at frame: %s", full_path.data);
         }
 
         fclose(file_fp);
@@ -112,6 +112,11 @@ void player(PLAYER_ARGS data)
         }
 
         custom_print(frame.data);
+
+        if(data.verbose == 1)
+        {
+            printf("\n%s", current_file);
+        }
 
         free(full_path.data);
         free(frame.data);

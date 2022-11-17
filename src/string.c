@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-STRING string_from(char* c_str)
+STRING string_from(const char* c_str)
 {
     STRING str;
 

@@ -17,7 +17,7 @@ typedef struct PLAYER_ARGS_S
     uint32_t framerate_ns;
 
     /*
-    0 - the frames is preconverted ascii
+    0 - the frames is preconverted ascii and is in the memory
     1 - the frames is input of files in dir
     */
     uint8_t convert;
@@ -35,6 +35,8 @@ typedef struct PLAYER_ARGS_S
 
     // clear console before new line is printed, ONLY WORK ON LINUX!
     uint8_t clear_console;
+
+    uint8_t verbose;
 } PLAYER_ARGS;
 
 #define fps_ns(fps) 1000000 / fps

@@ -3,6 +3,7 @@ build
 .vscode
 frames
 txtframes
+ignore
 
 # CMake
 
