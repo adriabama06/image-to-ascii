@@ -12,6 +12,13 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <signal.h>
+
+void exit_handler(int dummy) {
+    show_cursor();
+
+    exit(dummy);
+}
 
 #ifdef _WIN32
     #define custom_print(str) printf("%s\n", str)
@@ -21,6 +28,10 @@
 
 void player(PLAYER_ARGS data)
 {
+    signal(SIGINT, exit_handler);
+    
+    hide_cursor();
+
     SYSTEM_TIME start_time;
     current_time(start_time);
 
@@ -125,5 +136,6 @@ void player(PLAYER_ARGS data)
         free(frame.data);
     }
 
+    show_cursor();
     return;
 }
