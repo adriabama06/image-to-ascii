@@ -1,3 +1,8 @@
+## BIG ERROR:
+In the code I call nanoseconds instance of microseconds:
+SECOND - MILISECOND - MICROSECOND - NANOSECONDS
+I got confused and thought i was using nanoseconds instead of microseconds
+
 ## Limiatations:
 - Only support .bmp image
 - The .bmp file can't be compressed
