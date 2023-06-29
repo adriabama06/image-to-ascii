@@ -26,17 +26,17 @@ int main(int argc, const char** argv)
 
         if(options.threads == 0)
         {
-            CONVERT_MULTIPLE_TO_FILE_ARGS data;
+            CONVERT_MULTIPLE_TO_FILE_ARGS* data = (CONVERT_MULTIPLE_TO_FILE_ARGS*) malloc(sizeof(CONVERT_MULTIPLE_TO_FILE_ARGS));
 
-            data.files = search_files_by_suffix(options.input.data, ".bmp");
+            data->files = search_files_by_suffix(options.input.data, ".bmp");
 
-            data.from = 0;
+            data->from = 0;
 
-            data.to = data.files.length;
+            data->to = data->files.length;
 
-            data.options = options;
+            data->options = options;
 
-            convert_multiple_to_file((void*) &data);
+            convert_multiple_to_file((void*) data);
 
             return 0;
         }

@@ -70,6 +70,7 @@ void* convert_multiple_to_file(void* __data)
         free(output.data);
     }
     
+    free(__data);
 
     return NULL;
 }
